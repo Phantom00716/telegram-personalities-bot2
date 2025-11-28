@@ -29,6 +29,11 @@ openai.api_key = OPENAI_API_KEY or ""
 TELEGRAM_API = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}" if TELEGRAM_TOKEN else None
 
 app = FastAPI()
+@app.on_event("startup")
+async def on_startup():
+    init_db()
+    ensure_builtins_in_db()
+    load_personalities_from_db()
 
 BUILTIN_PERSONALITIES = {
     "einstein": {
